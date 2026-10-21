@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="Theme.DDD" parent="Theme.Material3.DayNight.NoActionBar">
+
+    </style>
+    <style name="Base.Theme.DDD" parent="Theme.Material3.DayNight.NoActionBar">
+
+    </style>
+
+</resources>

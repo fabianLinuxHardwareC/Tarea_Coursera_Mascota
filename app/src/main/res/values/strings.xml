@@ -1,0 +1,38 @@
+<resources>
+
+
+    <string name="app_name">Petagram</string>
+
+
+
+    <string name="texto_inicio_boton">Iniciar</string>
+
+    <string name="bienvenida">Bienvenida a Petagram</string>
+
+
+
+    <string name="tool_menu_animales">Petagram</string>
+
+
+
+    <string name="armadillo">Armadillo marrón</string>
+
+    <string name="imagen_mascota">Imagen de mascota</string>
+
+    <string name="lorem_ipsum">Texto de ejemplo</string>
+
+
+
+    <string name="descripcion_boton_subir">Subir una foto</string>
+
+    <string name="valorar_mascota">Valorar mascota</string>
+
+
+
+    <string name="abrir_favoritos">Abrir mascotas favoritas</string>
+
+    <string name="cantidad_favoritos">5</string>
+
+    <string name="volver">Volver a la lista de mascotas</string>
+
+</resources>
