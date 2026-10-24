@@ -10,6 +10,10 @@ data class Mascota(
 
     var rating: Int,
 
-    val fotoUri: Uri? = null
+    val fotoUri: Uri? = null,
+
+    var id: Long = 0,
+
+    var ultimaValoracion: Long? = null
 
 )

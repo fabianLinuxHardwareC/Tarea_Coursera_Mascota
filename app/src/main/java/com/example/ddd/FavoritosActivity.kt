@@ -2,9 +2,13 @@ package com.example.ddd
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavoritosActivity : AppCompatActivity() {
 
@@ -13,31 +17,47 @@ class FavoritosActivity : AppCompatActivity() {
 
         setContentView(R.layout.pantalla_favoritos)
 
-        val barra = findViewById<MaterialToolbar>(R.id.barraFavoritos)
+        val barra = findViewById<MaterialToolbar>(
+            R.id.barraFavoritos
+        )
 
         barra.setNavigationOnClickListener {
             finish()
         }
 
-        val mascotasFavoritas = listOf(
-
-            Mascota("Ronny", R.drawable.perro, 3),
-
-            Mascota("Catty", R.drawable.gato, 5),
-
-            Mascota("Rocky", R.drawable.armadillo, 4),
-
-            Mascota("Luna", R.drawable.lagarto, 5),
-
-            Mascota("Max", R.drawable.perro, 2)
-
+        val recycler = findViewById<RecyclerView>(
+            R.id.recyclerFavoritos
         )
-
-        // CONFIGURAR RECYCLERVIEW
-        val recycler = findViewById<RecyclerView>(R.id.recyclerFavoritos)
 
         recycler.layoutManager = LinearLayoutManager(this)
 
-        recycler.adapter = MascotaAdapter(mascotasFavoritas)
+        val mascotasFavoritas = mutableListOf<Mascota>()
+
+        val adapter = MascotaAdapter(mascotasFavoritas)
+
+        recycler.adapter = adapter
+
+        lifecycleScope.launch {
+
+            val lista = withContext(Dispatchers.IO) {
+
+                val baseDatos = BaseDatosMascotas(applicationContext)
+
+                try {
+
+                    baseDatos.obtenerUltimasCinco()
+
+                } finally {
+
+                    baseDatos.close()
+                }
+            }
+
+            mascotasFavoritas.clear()
+
+            mascotasFavoritas.addAll(lista)
+
+            adapter.notifyDataSetChanged()
+        }
     }
 }

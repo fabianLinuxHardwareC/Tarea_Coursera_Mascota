@@ -3,16 +3,14 @@ package com.example.ddd
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.ImageView
 import android.widget.TextView
-
 import androidx.recyclerview.widget.RecyclerView
 
 class MascotaAdapter(
-    private val mascotas: List<Mascota>
+    private val mascotas: List<Mascota>,
+    private val alValorar: ((Mascota) -> Unit)? = null
 ) : RecyclerView.Adapter<MascotaAdapter.MascotaViewHolder>() {
-
 
     class MascotaViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -32,9 +30,7 @@ class MascotaAdapter(
         val botonHueso = itemView.findViewById<TextView>(
             R.id.botonHueso
         )
-
     }
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,15 +38,10 @@ class MascotaAdapter(
     ): MascotaViewHolder {
 
         val vista = LayoutInflater.from(parent.context)
-            .inflate(
-                R.layout.item_mascota,
-                parent,
-                false
-            )
+            .inflate(R.layout.item_mascota, parent, false)
 
         return MascotaViewHolder(vista)
     }
-
 
     override fun onBindViewHolder(
         holder: MascotaViewHolder,
@@ -59,8 +50,6 @@ class MascotaAdapter(
 
         val mascota = mascotas[position]
 
-
-
         if (mascota.fotoUri != null) {
 
             holder.imagen.setImageURI(mascota.fotoUri)
@@ -68,18 +57,14 @@ class MascotaAdapter(
         } else {
 
             holder.imagen.setImageResource(mascota.imagen)
-
         }
-
-
 
         holder.nombre.text = mascota.nombre
 
-
-
         holder.rating.text = mascota.rating.toString()
 
-
+        holder.botonHueso.visibility =
+            if (alValorar == null) View.GONE else View.VISIBLE
 
         holder.botonHueso.setOnClickListener {
 
@@ -87,14 +72,12 @@ class MascotaAdapter(
 
             holder.rating.text = mascota.rating.toString()
 
+            alValorar?.invoke(mascota)
         }
-
     }
-
 
     override fun getItemCount(): Int {
 
         return mascotas.size
-
     }
 }
